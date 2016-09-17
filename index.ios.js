@@ -10,21 +10,34 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
   TouchableWithoutFeedback
 } from 'react-native';
-import Emoji from 'react-native-emoji';
 import classNames from 'classnames';
 
 const emojis = [
-  { name: 'poop', word: 'poop' },
-  { name: 'eggplant', word: 'eggplant' },
-  { name: 'joy', word: 'joy' },
-  { name: 'ghost', word: 'ghost' },
-  { name: 'tada', word: 'party' },
-  { name: 'boom', word: 'explosion' },
-  { name: 'bomb', word: 'bomb' },
-  { name: 'dancer', word: 'dancer' },
-  { name: 'monkey', word: 'monkey' },
+  { image: require('./emoji-one/1f40a.png'), word: 'crocodile' },
+  { image: require('./emoji-one/1f40b.png'), word: 'whale' },
+  { image: require('./emoji-one/1f40c.png'), word: 'snail' },
+  { image: require('./emoji-one/1f40d.png'), word: 'snake' },
+  { image: require('./emoji-one/1f40e.png'), word: 'horse' },
+  { image: require('./emoji-one/1f40f.png'), word: 'sheep' },
+  { image: require('./emoji-one/1f41a.png'), word: 'shell' },
+  { image: require('./emoji-one/1f41b.png'), word: 'caterpillar' },
+  { image: require('./emoji-one/1f41c.png'), word: 'ant' },
+  { image: require('./emoji-one/1f41d.png'), word: 'bee' },
+  { image: require('./emoji-one/1f41e.png'), word: 'ladybird' },
+  { image: require('./emoji-one/1f41f.png'), word: 'fish' },
+  { image: require('./emoji-one/1f42a.png'), word: 'llama' },
+  { image: require('./emoji-one/1f42b.png'), word: 'camel' },
+  { image: require('./emoji-one/1f42c.png'), word: 'dolphin' },
+  { image: require('./emoji-one/1f42d.png'), word: 'mouse' },
+  { image: require('./emoji-one/1f42e.png'), word: 'cow' },
+  { image: require('./emoji-one/1f42f.png'), word: 'tiger' },
+  { image: require('./emoji-one/1f43a.png'), word: 'wolf' },
+  { image: require('./emoji-one/1f43b.png'), word: 'bear' },
+  { image: require('./emoji-one/1f43c.png'), word: 'panda' },
+  { image: require('./emoji-one/1f43f.png'), word: 'squirrel' },
 ]
 
 class emoti extends Component {
@@ -66,7 +79,7 @@ class emoti extends Component {
         <TouchableWithoutFeedback onPress={() => this.handleEmojiPress()}>
           <View>
             <Text style={styles.emoji}>
-              <Emoji name={emoji.name} />
+              <Image source={emoji.image} style={styles.image} />
             </Text>
           </View>
         </TouchableWithoutFeedback>
@@ -90,6 +103,10 @@ const styles = StyleSheet.create({
     fontSize: 70,
     textAlign: 'center',
     marginBottom: 5
+  },
+  image: {
+    width: 240,
+    height: 240
   },
   word: {
     opacity: 0,
