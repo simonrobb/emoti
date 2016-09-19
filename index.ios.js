@@ -52,6 +52,7 @@ class emoti extends Component {
     }
 
     this.fadeValue = new Animated.Value(0)
+    this.emojiPressAnimValue = new Animated.Value(0)
   }
   
   textEnter() {
@@ -70,7 +71,31 @@ class emoti extends Component {
     this.fadeValue.setValue(0)
   }
 
+  emojiPressInAnimation() {
+    this.emojiPressAnimValue.setValue(0)
+    Animated.timing(
+      this.emojiPressAnimValue,
+      {
+        duration: 100,
+        easing: Easing.in(Easing.ease),
+        toValue: 1
+      }
+    ).start(() => this.emojiPressOutAnimation())
+  }
+
+  emojiPressOutAnimation() {
+    Animated.timing(
+      this.emojiPressAnimValue,
+      {
+        duration: 100,
+        easing: Easing.in(Easing.ease),
+        toValue: 0
+      }
+    ).start()
+  }
+
   handleEmojiPress() {
+    this.emojiPressInAnimation()
     if (!this.state.wordDisplayed) {
       this.textEnter()
       this.setState({ wordDisplayed: true })
@@ -91,6 +116,17 @@ class emoti extends Component {
   render() {
     const { wordDisplayed, emoji } = this.state
 
+    const emojiPressAnim = this.emojiPressAnimValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 0.8]
+    })
+
+    const emojiPressAnimStyle = {
+      transform: [{scale: emojiPressAnim}]
+    }
+
+    const emojiStyles = [styles.emoji, emojiPressAnimStyle]
+
     const fade = this.fadeValue.interpolate({
       inputRange: [0, 1],
       outputRange: [0, 1]
@@ -101,18 +137,13 @@ class emoti extends Component {
     }
 
     const wordStyles = [styles.word, fadeStyle]
-    if (true || wordDisplayed) {
-      wordStyles.push(styles.visible)
-    }
 
     return (
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={() => this.handleEmojiPress()}>
-          <View>
-            <Text style={styles.emoji}>
-              <Image source={emoji.image} style={styles.image} />
-            </Text>
-          </View>
+          <Animated.View style={emojiStyles}>
+            <Image source={emoji.image} style={styles.image} />
+          </Animated.View>
         </TouchableWithoutFeedback>
         <Animated.Text style={wordStyles}>
           {emoji.word}
@@ -131,8 +162,6 @@ const styles = StyleSheet.create({
   },
   emoji: {
     paddingBottom: 10,
-    fontSize: 70,
-    textAlign: 'center',
     marginBottom: 5
   },
   image: {
