@@ -64,31 +64,30 @@ class FlashCardScene extends Component {
     this.fadeValue.setValue(0)
   }
 
-  emojiPressInAnimation() {
+  emojiPressAnimation() {
     this.emojiPressAnimValue.setValue(0)
     Animated.timing(
       this.emojiPressAnimValue,
       {
         duration: 100,
         easing: Easing.in(Easing.ease),
-        toValue: 1
+        toValue: 0.5
       }
-    ).start(() => this.emojiPressOutAnimation())
+    ).start()
   }
 
-  emojiPressOutAnimation() {
+  emojiReleaseAnimation() {
     Animated.timing(
       this.emojiPressAnimValue,
       {
-        duration: 100,
-        easing: Easing.in(Easing.ease),
-        toValue: 0
+        duration: 200,
+        easing: Easing.out(Easing.ease),
+        toValue: 1
       }
     ).start()
   }
 
   handleEmojiPress() {
-    this.emojiPressInAnimation()
     if (!this.state.wordDisplayed) {
       this.textEnter()
       this.setState({ wordDisplayed: true })
@@ -106,38 +105,49 @@ class FlashCardScene extends Component {
     return emojis[index]
   }
 
+  handleStartShouldSetResponder(event) {
+    // console.log(event)
+    return true
+  }
+
+  handleResponderGrant(event) {
+    this.emojiPressAnimation()
+  }
+
+  handleResponderMove(event) {
+    
+  }
+
+  handleResponderRelease(event) {
+    this.emojiReleaseAnimation()
+    this.handleEmojiPress()
+  }
+
   render() {
     const { wordDisplayed, emoji } = this.state
 
-    const emojiPressAnim = this.emojiPressAnimValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [1, 0.8]
-    })
-
     const emojiPressAnimStyle = {
-      transform: [{scale: emojiPressAnim}]
+      transform: [{scale: this.emojiPressAnimValue.interpolate({
+          inputRange: [0, 0.5, 0.9, 1],
+          outputRange: [1, 0.8, 1.1, 1]
+        })
+      }]
     }
-
     const emojiStyles = [styles.emoji, emojiPressAnimStyle]
 
-    const fade = this.fadeValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 1]
-    })
-
     const fadeStyle = {
-      opacity: fade
+      opacity: this.fadeValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 1]
+      })
     }
-
     const wordStyles = [styles.word, fadeStyle]
 
     return (
       <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={() => this.handleEmojiPress()}>
-          <Animated.View style={emojiStyles}>
-            <Image source={emoji.image} style={styles.image} />
-          </Animated.View>
-        </TouchableWithoutFeedback>
+        <Animated.View style={emojiStyles} onStartShouldSetResponder={event => this.handleStartShouldSetResponder(event)} onResponderGrant={event => this.handleResponderGrant(event)} onResponderMove={event => this.handleResponderMove(event)} onResponderRelease={event => this.handleResponderRelease(event)}>
+          <Image source={emoji.image} style={styles.image} />
+        </Animated.View>
         <Animated.Text style={wordStyles}>
           {emoji.word}
         </Animated.Text>
