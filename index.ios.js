@@ -11,7 +11,9 @@ import {
   Text,
   View,
   Image,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Animated,
+  Easing
 } from 'react-native';
 import classNames from 'classnames';
 
@@ -48,12 +50,32 @@ class emoti extends Component {
       wordDisplayed: false,
       emoji: this.getRandomEmoji()
     }
+
+    this.fadeValue = new Animated.Value(0)
+  }
+  
+  textEnter() {
+    this.fadeValue.setValue(0)
+    Animated.timing(
+      this.fadeValue, 
+      {
+        duration: 300,
+        easing: Easing.in(Easing.ease),
+        toValue: 1
+      }
+    ).start()
+  }
+
+  textExit() {
+    this.fadeValue.setValue(0)
   }
 
   handleEmojiPress() {
     if (!this.state.wordDisplayed) {
+      this.textEnter()
       this.setState({ wordDisplayed: true })
     } else {
+      this.textExit()
       this.setState({ 
         wordDisplayed: false,
         emoji: this.getRandomEmoji()
@@ -69,8 +91,17 @@ class emoti extends Component {
   render() {
     const { wordDisplayed, emoji } = this.state
 
-    const wordStyles = [styles.word]
-    if (wordDisplayed) {
+    const fade = this.fadeValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1]
+    })
+
+    const fadeStyle = {
+      opacity: fade
+    }
+
+    const wordStyles = [styles.word, fadeStyle]
+    if (true || wordDisplayed) {
       wordStyles.push(styles.visible)
     }
 
@@ -83,9 +114,9 @@ class emoti extends Component {
             </Text>
           </View>
         </TouchableWithoutFeedback>
-        <Text style={wordStyles}>
+        <Animated.Text style={wordStyles}>
           {emoji.word}
-        </Text>
+        </Animated.Text>
       </View>
     );
   }
@@ -109,13 +140,9 @@ const styles = StyleSheet.create({
     height: 240
   },
   word: {
-    opacity: 0,
     fontSize: 54,
     fontFamily: 'American Typewriter',
     color: '#475358',
-  },
-  visible: {
-    opacity: 1,
   }
 });
 
