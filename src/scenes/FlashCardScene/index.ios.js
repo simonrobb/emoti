@@ -5,35 +5,12 @@ import {
   Text,
   View,
   Image,
+  TouchableHighlight,
   TouchableWithoutFeedback,
   Animated,
   Easing
 } from 'react-native';
-
-const emojis = [
-  { image: require('../../../emoji-one/1f40a.png'), word: 'crocodile' },
-  { image: require('../../../emoji-one/1f40b.png'), word: 'whale' },
-  { image: require('../../../emoji-one/1f40c.png'), word: 'snail' },
-  { image: require('../../../emoji-one/1f40d.png'), word: 'snake' },
-  { image: require('../../../emoji-one/1f40e.png'), word: 'horse' },
-  { image: require('../../../emoji-one/1f40f.png'), word: 'sheep' },
-  { image: require('../../../emoji-one/1f41a.png'), word: 'shell' },
-  { image: require('../../../emoji-one/1f41b.png'), word: 'caterpillar' },
-  { image: require('../../../emoji-one/1f41c.png'), word: 'ant' },
-  { image: require('../../../emoji-one/1f41d.png'), word: 'bee' },
-  { image: require('../../../emoji-one/1f41e.png'), word: 'ladybird' },
-  { image: require('../../../emoji-one/1f41f.png'), word: 'fish' },
-  { image: require('../../../emoji-one/1f42a.png'), word: 'llama' },
-  { image: require('../../../emoji-one/1f42b.png'), word: 'camel' },
-  { image: require('../../../emoji-one/1f42c.png'), word: 'dolphin' },
-  { image: require('../../../emoji-one/1f42d.png'), word: 'mouse' },
-  { image: require('../../../emoji-one/1f42e.png'), word: 'cow' },
-  { image: require('../../../emoji-one/1f42f.png'), word: 'tiger' },
-  { image: require('../../../emoji-one/1f43a.png'), word: 'wolf' },
-  { image: require('../../../emoji-one/1f43b.png'), word: 'bear' },
-  { image: require('../../../emoji-one/1f43c.png'), word: 'panda' },
-  { image: require('../../../emoji-one/1f43f.png'), word: 'squirrel' },
-]
+import AnimalEmojis from '../../components/Emojis/Animals'
 
 class FlashCardScene extends Component {
   constructor(props) {
@@ -70,7 +47,7 @@ class FlashCardScene extends Component {
       this.emojiPressAnimValue,
       {
         duration: 100,
-        easing: Easing.in(Easing.ease),
+        easing: Easing.out(Easing.ease),
         toValue: 0.5
       }
     ).start()
@@ -81,55 +58,57 @@ class FlashCardScene extends Component {
       this.emojiPressAnimValue,
       {
         duration: 200,
-        easing: Easing.out(Easing.ease),
+        easing: Easing.in(Easing.elastic(2)),
         toValue: 1
       }
     ).start()
   }
 
-  handleEmojiPress() {
-    if (!this.state.wordDisplayed) {
-      this.textEnter()
-      this.setState({ wordDisplayed: true })
+  getRandomEmoji() {
+    const index = Math.floor(Math.random() * (AnimalEmojis.length));
+    return AnimalEmojis[index]
+  }
+
+  handleStartShouldSetResponder(event) {
+    return true
+  }
+
+  handleResponderGrant(event) {
+    if (this.state.wordDisplayed) {
+      
     } else {
+      this.emojiPressAnimation()
+    }
+  }
+
+  handleResponderMove(event) {
+    if (this.state.wordDisplayed) {
+      console.log(event)
+    }
+  }
+
+  handleResponderRelease(event) {
+    if (this.state.wordDisplayed) {
       this.textExit()
       this.setState({ 
         wordDisplayed: false,
         emoji: this.getRandomEmoji()
       })
+    } else {
+      this.emojiReleaseAnimation()
+      this.textEnter()
+      this.setState({ wordDisplayed: true })
     }
   }
 
-  getRandomEmoji() {
-    const index = Math.floor(Math.random() * (emojis.length));
-    return emojis[index]
-  }
-
-  handleStartShouldSetResponder(event) {
-    // console.log(event)
-    return true
-  }
-
-  handleResponderGrant(event) {
-    this.emojiPressAnimation()
-  }
-
-  handleResponderMove(event) {
-    
-  }
-
-  handleResponderRelease(event) {
-    this.emojiReleaseAnimation()
-    this.handleEmojiPress()
-  }
-
   render() {
+    const { onBackPress } = this.props
     const { wordDisplayed, emoji } = this.state
 
     const emojiPressAnimStyle = {
       transform: [{scale: this.emojiPressAnimValue.interpolate({
-          inputRange: [0, 0.5, 0.9, 1],
-          outputRange: [1, 0.8, 1.1, 1]
+          inputRange: [0, 0.5, 1.2],
+          outputRange: [1, 0.8, 1.2]
         })
       }]
     }
@@ -145,12 +124,19 @@ class FlashCardScene extends Component {
 
     return (
       <View style={styles.container}>
-        <Animated.View style={emojiStyles} onStartShouldSetResponder={event => this.handleStartShouldSetResponder(event)} onResponderGrant={event => this.handleResponderGrant(event)} onResponderMove={event => this.handleResponderMove(event)} onResponderRelease={event => this.handleResponderRelease(event)}>
-          <Image source={emoji.image} style={styles.image} />
-        </Animated.View>
-        <Animated.Text style={wordStyles}>
-          {emoji.word}
-        </Animated.Text>
+        <View style={styles.bar}>
+          <TouchableHighlight onPress={onBackPress}>
+            <Text style={styles.back}>Back</Text>
+          </TouchableHighlight>
+        </View>
+        <View style={styles.main}>
+          <Animated.View style={emojiStyles} onStartShouldSetResponder={event => this.handleStartShouldSetResponder(event)} onResponderGrant={event => this.handleResponderGrant(event)} onResponderMove={event => this.handleResponderMove(event)} onResponderRelease={event => this.handleResponderRelease(event)}>
+            <Image source={emoji.image} style={styles.image} />
+          </Animated.View>
+          <Animated.Text style={wordStyles}>
+            {emoji.word}
+          </Animated.Text>
+        </View>
       </View>
     );
   }
@@ -159,9 +145,26 @@ class FlashCardScene extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  bar: {
+    flex: 0,
+    flexDirection: 'row',
+    height: 40,
+    marginTop: 20,
+    paddingLeft: 5,
+    paddingRight: 5,
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  back: {
+    fontSize: 16,
+    color: '#ccced8'
+  },
+  main: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
   },
   emoji: {
     paddingBottom: 10,

@@ -26,6 +26,10 @@ class emoti extends Component {
     this.setState({ scene: 'flashCards' })
   }
 
+  handleFlashCardBackPress() {
+    this.setState({ scene: 'home' })
+  }
+
   render() {
     let scene
     switch(this.state.scene) {
@@ -34,7 +38,7 @@ class emoti extends Component {
         break
       
       case 'flashCards':
-        scene = <FlashCardScene />
+        scene = <FlashCardScene onBackPress={() => this.handleFlashCardBackPress()} />
         break
     }
 

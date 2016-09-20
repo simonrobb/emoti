@@ -7,6 +7,8 @@
   },
   "dependencies": {
     "react": "15.3.1",
-    "react-native": "0.33.0"
+    "react-native": "0.33.0",
+    "react-native-carousel-control": "^1.0.4",
+    "react-native-sound": "^0.8.3"
   }
 }
