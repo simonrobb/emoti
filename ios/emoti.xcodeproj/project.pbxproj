@@ -23,6 +23,10 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		F403ACC51D920A18007DF6C2 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F403ACC41D9209CF007DF6C2 /* libRNSound.a */; };
+		F403ACC71D920B1D007DF6C2 /* ping.wav in Resources */ = {isa = PBXBuildFile; fileRef = F403ACC61D920B1D007DF6C2 /* ping.wav */; };
+		F403ACC91D920D3B007DF6C2 /* ping.wav in Resources */ = {isa = PBXBuildFile; fileRef = F403ACC61D920B1D007DF6C2 /* ping.wav */; };
+		F403ACCB1D920F4F007DF6C2 /* whoosh.wav in Resources */ = {isa = PBXBuildFile; fileRef = F403ACCA1D920F4F007DF6C2 /* whoosh.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +107,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		F403ACC31D9209CF007DF6C2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F403ACB51D9209CF007DF6C2 /* RNSound.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19825A1E1BD4A89800EE0337;
+			remoteInfo = RNSound;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -127,6 +138,9 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		F403ACB51D9209CF007DF6C2 /* RNSound.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSound.xcodeproj; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; };
+		F403ACC61D920B1D007DF6C2 /* ping.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = ping.wav; path = ../src/scenes/FlashCardScene/assets/ping.wav; sourceTree = "<group>"; };
+		F403ACCA1D920F4F007DF6C2 /* whoosh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = whoosh.wav; path = ../src/scenes/FlashCardScene/assets/whoosh.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F403ACC51D920A18007DF6C2 /* libRNSound.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -234,6 +249,7 @@
 		13B07FAE1A68108700A75B9A /* emoti */ = {
 			isa = PBXGroup;
 			children = (
+				F403ACC81D920B33007DF6C2 /* Sounds */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -264,6 +280,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F403ACB51D9209CF007DF6C2 /* RNSound.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -305,6 +322,23 @@
 				00E356EE1AD99517003FC87E /* emotiTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F403ACB61D9209CF007DF6C2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F403ACC41D9209CF007DF6C2 /* libRNSound.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F403ACC81D920B33007DF6C2 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				F403ACCA1D920F4F007DF6C2 /* whoosh.wav */,
+				F403ACC61D920B1D007DF6C2 /* ping.wav */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -417,6 +451,10 @@
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
+				{
+					ProductGroup = F403ACB61D9209CF007DF6C2 /* Products */;
+					ProjectRef = F403ACB51D9209CF007DF6C2 /* RNSound.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -497,6 +535,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		F403ACC41D9209CF007DF6C2 /* libRNSound.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSound.a;
+			remoteRef = F403ACC31D9209CF007DF6C2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -504,6 +549,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F403ACC91D920D3B007DF6C2 /* ping.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,7 +557,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F403ACC71D920B1D007DF6C2 /* ping.wav in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				F403ACCB1D920F4F007DF6C2 /* whoosh.wav in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,7 +10,11 @@ import {
   Animated,
   Easing
 } from 'react-native';
+import Sound from 'react-native-sound'
 import AnimalEmojis from '../../components/Emojis/Animals'
+
+const SFX_TEXT_ENTER_PATH = 'ping.wav'
+const SFX_DISMISS_EMOJI_PATH = 'whoosh.wav'
 
 class FlashCardScene extends Component {
   constructor(props) {
@@ -25,7 +29,33 @@ class FlashCardScene extends Component {
     this.emojiPressAnimValue = new Animated.Value(0)
   }
 
+  componentWillMount() {
+    // Preload sounds
+    this.sfx = {}
+    this.sfx.textEnter = new Sound(SFX_TEXT_ENTER_PATH, Sound.MAIN_BUNDLE, error => { 
+      if (error) {
+        console.error(`Failed to load sound ${SFX_TEXT_ENTER_PATH}`, error)
+      }
+    })
+    this.sfx.dismissEmoji = new Sound(SFX_DISMISS_EMOJI_PATH, Sound.MAIN_BUNDLE, error => { 
+      if (error) {
+        console.error(`Failed to load sound ${SFX_DISMISS_EMOJI_PATH}`, error)
+      }
+    })
+  }
+
+  componentWillDismount() {
+    // Release sound resources
+    for (const key in this.sfx) {
+      this.sfx[key].release()
+    }
+  }
+
   textEnter() {
+    // Play SFX
+    this.sfx.textEnter.play()
+
+    // Start the animation
     this.fadeValue.setValue(0)
     Animated.timing(
       this.fadeValue, 
@@ -38,6 +68,10 @@ class FlashCardScene extends Component {
   }
 
   textExit() {
+    // Play SFX
+    this.sfx.dismissEmoji.play()
+
+    // Start animation
     this.fadeValue.setValue(0)
   }
 
