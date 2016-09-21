@@ -24,7 +24,6 @@ class FlashCardScene extends Component {
       emoji: this.getRandomEmoji()
     }
 
-    this.fadeValue = new Animated.Value(0)
     this.emojiPressAnimValue = new Animated.Value(0)
   }
 
@@ -54,24 +53,16 @@ class FlashCardScene extends Component {
     // Play SFX
     this.sfx.textEnter.play()
 
-    // Start the animation
-    this.fadeValue.setValue(0)
-    Animated.timing(
-      this.fadeValue, 
-      {
-        duration: 300,
-        easing: Easing.in(Easing.ease),
-        toValue: 1
-      }
-    ).start()
+    // Update the state
+    this.setState({ wordDisplayed: true })
   }
 
   textExit() {
     // Play SFX
     this.sfx.dismissEmoji.play()
 
-    // Start animation
-    this.fadeValue.setValue(0)
+    // Update the state
+    this.setState({ wordDisplayed: false })
   }
 
   emojiPressAnimation() {
@@ -95,6 +86,10 @@ class FlashCardScene extends Component {
         toValue: 1
       }
     ).start()
+  }
+
+  nextEmoji() {
+    this.setState({ emoji: this.getRandomEmoji() })
   }
 
   getRandomEmoji() {
@@ -124,14 +119,10 @@ class FlashCardScene extends Component {
   handleResponderRelease(event) {
     if (this.state.wordDisplayed) {
       this.textExit()
-      this.setState({ 
-        wordDisplayed: false,
-        emoji: this.getRandomEmoji()
-      })
+      this.nextEmoji()
     } else {
       this.emojiReleaseAnimation()
       this.textEnter()
-      this.setState({ wordDisplayed: true })
     }
   }
 
@@ -142,19 +133,27 @@ class FlashCardScene extends Component {
     const emojiPressAnimStyle = {
       transform: [{scale: this.emojiPressAnimValue.interpolate({
           inputRange: [0, 0.5, 1.2],
-          outputRange: [1, 0.8, 1.2]
+          outputRange: [1, 0.9, 1.2]
         })
       }]
     }
     const emojiStyles = [styles.emoji, emojiPressAnimStyle]
 
-    const fadeStyle = {
-      opacity: this.fadeValue.interpolate({
-        inputRange: [0, 1],
+    const wordEnterStyle = {
+      opacity: this.emojiPressAnimValue.interpolate({
+        inputRange: [0.7, 1],
         outputRange: [0, 1]
-      })
+      }),
+      transform: [{scale: this.emojiPressAnimValue.interpolate({
+          inputRange: [0.5, 1, 1.2],
+          outputRange: [0, 1, 1.1]
+        })
+      }]
     }
-    const wordStyles = [styles.word, fadeStyle]
+    const wordStyles = [styles.word]
+    if (this.state.wordDisplayed) {
+      wordStyles.push(wordEnterStyle)
+    }
 
     return (
       <View style={styles.container}>
@@ -209,6 +208,7 @@ const styles = StyleSheet.create({
     height: 240
   },
   word: {
+    opacity: 0,
     fontSize: 54,
     fontFamily: 'American Typewriter',
     color: '#475358',
