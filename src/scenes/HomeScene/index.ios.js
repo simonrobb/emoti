@@ -11,30 +11,14 @@ import {
   Dimensions
 } from 'react-native'
 import Carousel from 'react-native-carousel-control'
-import AnimalEmojis from '../../components/Emojis/Animals'
-import FacesEmojis from '../../components/Emojis/Faces'
-
-const packs = [
-  {
-    name: 'Animals',
-    image: require('./assets/animals.jpg'),
-    logoColor: '#476079',
-    emojis: AnimalEmojis
-  },
-  {
-    name: 'Travel',
-    image: require('./assets/travel.jpg'),
-    logoColor: 'white',
-    emojis: FacesEmojis
-  }
-]
+import Packs from '../../components/Packs'
 
 class HomeScene extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      currentPack: packs[0], 
+      currentPack: Packs[0], 
       openingPack: null
     }
     this.openAnimValue = new Animated.Value(0)
@@ -77,7 +61,7 @@ class HomeScene extends Component {
   }
 
   gotoPackByIndex(index) {
-    const pack = packs[index]
+    const pack = Packs[index]
 
     if (!pack) {
       throw `Invalid pack index {${index}} passed to gotoPackByIndex`
@@ -93,7 +77,7 @@ class HomeScene extends Component {
   }
 
   getCurrentPackIndex() {
-    return packs.indexOf(this.state.currentPack)
+    return Packs.indexOf(this.state.currentPack)
   }
 
   openPack(pack) {
@@ -194,7 +178,7 @@ class HomeScene extends Component {
     // Arrow styles
     const currIndex = this.getCurrentPackIndex()
     const arrowLeftStyles = [styles.arrow, styles.arrowLeft, { opacity: (currIndex <= 0 ? 0 : 1) }]
-    const arrowRightStyles = [styles.arrow, styles.arrowRight, { opacity: (currIndex >= (packs.length-1) ? 0 : 1) }]
+    const arrowRightStyles = [styles.arrow, styles.arrowRight, { opacity: (currIndex >= (Packs.length-1) ? 0 : 1) }]
 
     // Carousel element
     const carouselDimensionsStyle = {
@@ -204,7 +188,7 @@ class HomeScene extends Component {
     const carouselStyles = [styles.carousel, carouselDimensionsStyle]
     const carouselEl = <View style={carouselStyles}>
       <Carousel pageWidth={width} sneak={0} initialPage={this.state.currentIndex} onPageChange={index => this.handlePageChange(index)} ref={ref => this._carousel = ref}>
-        {packs.map(pack => {
+        {Packs.map(pack => {
           const imageStyles = [styles.image, carouselDimensionsStyle]
           if (this.state.openingPack === pack.name) {
             imageStyles.push(openAnimStyle)

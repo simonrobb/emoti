@@ -94,8 +94,15 @@ class FlashCardScene extends Component {
 
   getRandomEmoji() {
     const { pack } = this.props
-    const index = Math.floor(Math.random() * (pack.emojis.length));
-    return pack.emojis[index]
+    const index = Math.floor(Math.random() * (pack.emojis.length))
+    const emoji = { ...pack.emojis[index] }
+
+    if (Array.isArray(emoji.image)) {
+      const index = Math.floor(Math.random() * (emoji.image.length))
+      emoji.image = emoji.image[index]
+    } 
+
+    return emoji
   }
 
   handleStartShouldSetResponder(event) {
