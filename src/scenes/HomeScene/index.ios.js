@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   Image,
+  Text,
   TouchableWithoutFeedback,
   Animated,
   Easing,
@@ -35,6 +36,30 @@ class HomeScene extends Component {
       openingPack: null
     }
     this.openAnimValue = new Animated.Value(0)
+    this.playButtonPressAnimValue = new Animated.Value(0)
+  }
+
+  playButtonPressAnimation() {
+    this.playButtonPressAnimValue.setValue(0)
+    Animated.timing(
+      this.playButtonPressAnimValue,
+      {
+        duration: 100,
+        easing: Easing.out(Easing.ease),
+        toValue: 0.5
+      }
+    ).start()
+  }
+
+  playButtonReleaseAnimation() {
+    Animated.timing(
+      this.playButtonPressAnimValue,
+      {
+        duration: 350,
+        easing: Easing.out(Easing.ease),
+        toValue: 1
+      }
+    ).start()
   }
 
   openAnimation(pack, callback) {
@@ -58,21 +83,39 @@ class HomeScene extends Component {
     this.setState({ currentIndex: index })
   }
 
-  handlePress(pack) {
-    this.setState({ openingPack: pack.name })
+  handleStartShouldSetResponder(event) {
+    return true
+  }
+
+  handleResponderGrant(event) {
+    this.playButtonPressAnimation()
+  }
+
+  handleResponderRelease(event, pack) {
+    this.playButtonReleaseAnimation()
     this.openAnimation(pack, this.openPack.bind(this))
+    this.setState({ openingPack: pack.name })
   }
 
   render() {
     const { width, height } = Dimensions.get('window')
 
-    const imageStyles = [styles.image, {
-      width,
-      height
-    }]
+    // Play button animation styles
+    const playButtonPressAnimStyle = {
+      transform: [{scale: this.playButtonPressAnimValue.interpolate({
+          inputRange: [0, 0.5, 1],
+          outputRange: [1, 0.9, 4]
+        })
+      }],
+      opacity: this.playButtonPressAnimValue.interpolate({
+        inputRange: [0.5, 1],
+        outputRange: [1, 0]
+      })
+    }
+    const playButtonStyles = [playButtonPressAnimStyle]
 
+    // Image animation styles
     const openAnimStyle = {
-      zIndex: 2,
       transform: [{scale: this.openAnimValue.interpolate({
           inputRange: [0, 1],
           outputRange: [1, 3]
@@ -84,27 +127,63 @@ class HomeScene extends Component {
       })
     }
 
-    const othersAnimStyle = {
+    // Logo animation styles
+    const logoAnimStyle = {
+      transform: [{translateY: this.openAnimValue.interpolate({
+          inputRange: [0, 0.35],
+          outputRange: [0, -120],
+          extrapolate: 'clamp'
+        })
+      }],
       opacity: this.openAnimValue.interpolate({
-        inputRange: [0, 0.4],
-        outputRange: [1, 0]
+        inputRange: [0, 0.35],
+        outputRange: [1, 0],
+        extrapolate: 'clamp'
       })
     }
+    const logoStyles = [styles.logo, logoAnimStyle]
+
+    // Carousel bar animation styles
+    const carouselBarAnimStyle = {
+      transform: [{translateY: this.openAnimValue.interpolate({
+          inputRange: [0, 0.35],
+          outputRange: [0, 120],
+          extrapolate: 'clamp'
+        })
+      }],
+      opacity: this.openAnimValue.interpolate({
+        inputRange: [0, 0.35],
+        outputRange: [1, 0],
+        extrapolate: 'clamp'
+      })
+    }
+    const carouselBarStyles = [styles.carouselBar, carouselBarAnimStyle]
 
     return (
       <Carousel pageWidth={width} sneak={0} initialPage={this.state.currentIndex} onPageChange={index => this.handlePageChange(index)} style={styles.carousel}>
         {packs.map(pack => {
-          const packStyles = [styles.pack]
-          packStyles.push((this.state.openingPack === pack.name)
-            ? openAnimStyle
-            : othersAnimStyle
-          )
+          const imageStyles = [styles.image, {
+            width,
+            height
+          }]
+          if (this.state.openingPack === pack.name) {
+            imageStyles.push(openAnimStyle)
+          }
 
-          return <Animated.View style={packStyles} key={pack.name}>
-            <TouchableWithoutFeedback onPress={() => this.handlePress(pack)}>
-              <Image style={imageStyles} source={pack.image} />
-            </TouchableWithoutFeedback>
-          </Animated.View>
+          return <View style={styles.pack} key={pack.name}>
+            <View style={styles.wrapper}>
+              <Animated.Image style={imageStyles} source={pack.image} />
+              <View style={styles.content}>
+                <Animated.Image source={require('./assets/logo.png')} style={logoStyles}  />
+                <View style={styles.play}>
+                  <Animated.Image source={require('./assets/play.png')} style={playButtonStyles} onStartShouldSetResponder={event => this.handleStartShouldSetResponder(event)} onResponderGrant={event => this.handleResponderGrant(event)} onResponderMove={event => this.handleResponderMove(event)} onResponderRelease={event => this.handleResponderRelease(event, pack)} />
+                </View>
+                <Animated.View style={carouselBarStyles}>
+                  <Text style={styles.packName}>{pack.name}</Text>
+                </Animated.View>
+              </View>
+            </View>
+          </View>
         })}
       </Carousel>
     )
@@ -113,15 +192,48 @@ class HomeScene extends Component {
 
 const styles = StyleSheet.create({
   pack: {
+    flex: 1,
     zIndex: 1
   },
   image: {
-    flex: 1,
-    width: null,
-    height: null,
+    position: 'absolute',
+    top: 0,
+    left: 0,
     justifyContent: 'center',
     alignItems: 'center',
     resizeMode: Image.resizeMode.cover
+  },
+  wrapper: {
+    flex: 1
+  },
+  content: {
+    flex: 1,
+    width: null,
+    height: null,
+    alignItems: 'center'
+  },
+  logo: {
+    marginTop: 53
+  },
+  play: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  carouselBar: {
+    width: null,
+    height: 44,
+    marginBottom: 37,
+    backgroundColor: 'rgba(0,0,0,0)'
+  },
+  packName: {
+    color: 'white',
+    fontSize: 36,
+    fontWeight: 'bold',
+    fontFamily: 'American Typewriter',
+    shadowColor: 'black',
+    shadowOpacity: 0.1,
+    shadowRadius: 0,
+    shadowOffset: { width: 1, height: 2}
   }
 });
 
