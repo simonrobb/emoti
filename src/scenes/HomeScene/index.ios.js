@@ -194,7 +194,7 @@ class HomeScene extends Component {
     // Arrow styles
     const currIndex = this.getCurrentPackIndex()
     const arrowLeftStyles = [styles.arrow, styles.arrowLeft, { opacity: (currIndex <= 0 ? 0 : 1) }]
-    const arrowRightStyles = [styles.arrow, styles.arrowRight, { opacity: (currIndex >= (packs.size-1) ? 0 : 1) }]
+    const arrowRightStyles = [styles.arrow, styles.arrowRight, { opacity: (currIndex >= (packs.length-1) ? 0 : 1) }]
 
     // Carousel element
     const carouselDimensionsStyle = {

@@ -159,7 +159,7 @@ class FlashCardScene extends Component {
       <View style={styles.container}>
         <View style={styles.bar}>
           <TouchableHighlight onPress={onBackPress}>
-            <Text style={styles.back}>Back</Text>
+            <Image source={require('./assets/arrow.png')} style={styles.back} />
           </TouchableHighlight>
         </View>
         <View style={styles.main}>
@@ -183,17 +183,14 @@ const styles = StyleSheet.create({
   bar: {
     flex: 0,
     flexDirection: 'row',
-    height: 40,
+    height: 70,
     marginTop: 20,
-    paddingLeft: 5,
-    paddingRight: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
     alignItems: 'center',
     justifyContent: 'flex-start'
   },
-  back: {
-    fontSize: 16,
-    color: '#ccced8'
-  },
+  back: {},
   main: {
     flex: 1,
     justifyContent: 'center',
