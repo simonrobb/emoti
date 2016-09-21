@@ -10,15 +10,19 @@ import {
   Dimensions
 } from 'react-native'
 import Carousel from 'react-native-carousel-control'
+import AnimalEmojis from '../../components/Emojis/Animals'
+import FacesEmojis from '../../components/Emojis/Faces'
 
 const packs = [
   {
     name: 'Animals',
-    image: require('./assets/animals.jpg')
+    image: require('./assets/animals.jpg'),
+    emojis: AnimalEmojis
   },
   {
     name: 'Travel',
-    image: require('./assets/travel.jpg')
+    image: require('./assets/travel.jpg'),
+    emojis: FacesEmojis
   }
 ]
 
@@ -33,7 +37,7 @@ class HomeScene extends Component {
     this.openAnimValue = new Animated.Value(0)
   }
 
-  openAnimation(callback) {
+  openAnimation(pack, callback) {
     this.openAnimValue.setValue(0)
     Animated.timing(
       this.openAnimValue,
@@ -42,12 +46,12 @@ class HomeScene extends Component {
         easing: Easing.out(Easing.ease),
         toValue: 1
       }
-    ).start(callback)
+    ).start(() => callback(pack))
   }
 
-  openPack() {
+  openPack(pack) {
     const { onPlayPress } = this.props
-    onPlayPress()
+    onPlayPress(pack)
   }
 
   handlePageChange(index) {
@@ -56,7 +60,7 @@ class HomeScene extends Component {
 
   handlePress(pack) {
     this.setState({ openingPack: pack.name })
-    this.openAnimation(this.openPack.bind(this))
+    this.openAnimation(pack, this.openPack.bind(this))
   }
 
   render() {

@@ -22,8 +22,8 @@ class emoti extends Component {
     }
   }
 
-  handlePlayPress() {
-    this.setState({ scene: 'flashCards' })
+  handlePlayPress(pack) {
+    this.setState({ scene: 'flashCards', pack })
   }
 
   handleFlashCardBackPress() {
@@ -34,11 +34,11 @@ class emoti extends Component {
     let scene
     switch(this.state.scene) {
       case 'home':
-        scene = <HomeScene onPlayPress={() => this.handlePlayPress()} />
+        scene = <HomeScene onPlayPress={pack => this.handlePlayPress(pack)} />
         break
       
       case 'flashCards':
-        scene = <FlashCardScene onBackPress={() => this.handleFlashCardBackPress()} />
+        scene = <FlashCardScene pack={this.state.pack} onBackPress={() => this.handleFlashCardBackPress()} />
         break
     }
 

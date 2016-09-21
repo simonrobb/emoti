@@ -11,7 +11,6 @@ import {
   Easing
 } from 'react-native';
 import Sound from 'react-native-sound'
-import AnimalEmojis from '../../components/Emojis/Animals'
 
 const SFX_TEXT_ENTER_PATH = 'ping.wav'
 const SFX_DISMISS_EMOJI_PATH = 'whoosh.wav'
@@ -99,8 +98,9 @@ class FlashCardScene extends Component {
   }
 
   getRandomEmoji() {
-    const index = Math.floor(Math.random() * (AnimalEmojis.length));
-    return AnimalEmojis[index]
+    const { pack } = this.props
+    const index = Math.floor(Math.random() * (pack.emojis.length));
+    return pack.emojis[index]
   }
 
   handleStartShouldSetResponder(event) {
