@@ -11,8 +11,12 @@ import {
   Dimensions,
   StatusBar
 } from 'react-native'
+import Sound from 'react-native-sound'
 import Carousel from 'react-native-carousel-control'
 import Packs from '../../components/Packs'
+
+const SFX_CHANGE_PAGE_PATH = 'click.wav'
+const SFX_OPEN_PACK_PATH = 'open.wav'
 
 class HomeScene extends Component {
   constructor(props) {
@@ -24,6 +28,29 @@ class HomeScene extends Component {
     }
     this.openAnimValue = new Animated.Value(0)
     this.playButtonPressAnimValue = new Animated.Value(0)
+  }
+
+  componentWillMount() {
+    // Preload sounds
+    this.sfx = {}
+    this.sfx.changePage = new Sound(SFX_CHANGE_PAGE_PATH, Sound.MAIN_BUNDLE, error => { 
+      if (error) {
+        return console.error(`Failed to load sound ${SFX_CHANGE_PAGE_PATH}`, error)
+      }
+      this.sfx.changePage.setVolume(0.1)
+    })
+    this.sfx.openPack = new Sound(SFX_OPEN_PACK_PATH, Sound.MAIN_BUNDLE, error => { 
+      if (error) {
+        return console.error(`Failed to load sound ${SFX_OPEN_PACK_PATH}`, error)
+      }
+    })
+  }
+
+  componentWillDismount() {
+    // Release sound resources
+    for (const key in this.sfx) {
+      this.sfx[key].release()
+    }
   }
 
   playButtonPressAnimation() {
@@ -87,7 +114,13 @@ class HomeScene extends Component {
   }
 
   handlePageChange(index) {
-    this.setState({ currentPack: Packs[index] })
+    if (index !== this.getCurrentPackIndex()) {
+      // Play SFX
+      this.sfx.changePage.play()
+
+      // Update the state
+      this.setState({ currentPack: Packs[index] })
+    }
   }
 
   handlePrevPackPress() { 
@@ -107,8 +140,14 @@ class HomeScene extends Component {
   }
 
   handleResponderRelease(event, pack) {
+    // Play SFX
+    this.sfx.openPack.play()
+
+    // Start animations
     this.playButtonReleaseAnimation()
     this.openAnimation(pack, this.openPack.bind(this))
+
+    // Update the state
     this.setState({ openingPack: pack.name })
   }
 

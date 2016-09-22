@@ -27,6 +27,8 @@
 		F403ACC71D920B1D007DF6C2 /* ping.wav in Resources */ = {isa = PBXBuildFile; fileRef = F403ACC61D920B1D007DF6C2 /* ping.wav */; };
 		F403ACC91D920D3B007DF6C2 /* ping.wav in Resources */ = {isa = PBXBuildFile; fileRef = F403ACC61D920B1D007DF6C2 /* ping.wav */; };
 		F403ACCB1D920F4F007DF6C2 /* whoosh.wav in Resources */ = {isa = PBXBuildFile; fileRef = F403ACCA1D920F4F007DF6C2 /* whoosh.wav */; };
+		F4FF8B591D948211000D7F8B /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4FF8B581D948211000D7F8B /* click.wav */; };
+		F4FF8B5B1D9483AA000D7F8B /* open.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4FF8B5A1D9483AA000D7F8B /* open.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +143,8 @@
 		F403ACB51D9209CF007DF6C2 /* RNSound.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSound.xcodeproj; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; };
 		F403ACC61D920B1D007DF6C2 /* ping.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = ping.wav; path = ../src/scenes/FlashCardScene/assets/ping.wav; sourceTree = "<group>"; };
 		F403ACCA1D920F4F007DF6C2 /* whoosh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = whoosh.wav; path = ../src/scenes/FlashCardScene/assets/whoosh.wav; sourceTree = "<group>"; };
+		F4FF8B581D948211000D7F8B /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = click.wav; path = ../src/scenes/HomeScene/assets/click.wav; sourceTree = "<group>"; };
+		F4FF8B5A1D9483AA000D7F8B /* open.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = open.wav; path = ../src/scenes/HomeScene/assets/open.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -336,6 +340,8 @@
 			isa = PBXGroup;
 			children = (
 				F403ACCA1D920F4F007DF6C2 /* whoosh.wav */,
+				F4FF8B581D948211000D7F8B /* click.wav */,
+				F4FF8B5A1D9483AA000D7F8B /* open.wav */,
 				F403ACC61D920B1D007DF6C2 /* ping.wav */,
 			);
 			name = Sounds;
@@ -557,8 +563,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4FF8B5B1D9483AA000D7F8B /* open.wav in Resources */,
 				F403ACC71D920B1D007DF6C2 /* ping.wav in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				F4FF8B591D948211000D7F8B /* click.wav in Resources */,
 				F403ACCB1D920F4F007DF6C2 /* whoosh.wav in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);

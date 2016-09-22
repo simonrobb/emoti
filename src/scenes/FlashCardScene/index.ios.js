@@ -43,6 +43,7 @@ class FlashCardScene extends Component {
       if (error) {
         console.error(`Failed to load sound ${SFX_DISMISS_EMOJI_PATH}`, error)
       }
+      this.sfx.dismissEmoji.setVolume(0.1)
     })
   }
 
