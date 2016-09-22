@@ -18,6 +18,7 @@ import BackButton from './components/BackButton'
 
 const SFX_TEXT_ENTER_PATH = 'ping.wav'
 const SFX_DISMISS_EMOJI_PATH = 'whoosh.wav'
+const SFX_BACK_PRESS_PATH = 'exit.wav'
 
 class FlashCardScene extends Component {
   constructor(props) {
@@ -42,6 +43,12 @@ class FlashCardScene extends Component {
     this.sfx.dismissEmoji = new Sound(SFX_DISMISS_EMOJI_PATH, Sound.MAIN_BUNDLE, error => { 
       if (error) {
         console.error(`Failed to load sound ${SFX_DISMISS_EMOJI_PATH}`, error)
+      }
+      this.sfx.dismissEmoji.setVolume(0.1)
+    })
+    this.sfx.dismissEmoji = new Sound(SFX_BACK_PRESS_PATH, Sound.MAIN_BUNDLE, error => { 
+      if (error) {
+        console.error(`Failed to load sound ${SFX_BACK_PRESS_PATH}`, error)
       }
       this.sfx.dismissEmoji.setVolume(0.1)
     })
@@ -96,15 +103,24 @@ class FlashCardScene extends Component {
     }
   }
 
-  render() {
+  handleBackPress() {
+    // Play SFX
+    this.sfx.dismissEmoji.play()
+
+    // Navigate
     const { onBackPress } = this.props
+    onBackPress()
+  }
+
+  render() {
+    
     const { wordDisplayed, emoji } = this.state
 
     return (
       <View style={Styles.container}>
         <StatusBar hidden={true} />
         <View style={Styles.bar}>
-          <BackButton onPress={onBackPress} />
+          <BackButton onPress={() => this.handleBackPress()} />
         </View>
         <View style={Styles.main}>
           <Emoji emoji={emoji} wordDisplayed={wordDisplayed} onPress={() => this.handleEmojiPress()} animationValue={this.emojiPressAnimValue} />

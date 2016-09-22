@@ -10,7 +10,7 @@ const packs = [
   {
     name: 'Animals',
     image: require('./assets/animals.png'),
-    logoColor: '#476079',
+    logoColor: '#FFFFFF',
     emojis: AnimalsEmojis
   },
   {
@@ -28,7 +28,7 @@ const packs = [
   {
     name: 'Faces',
     image: require('./assets/travel.jpg'),
-    logoColor: 'white',
+    logoColor: '#FFFFFF',
     emojis: FacesEmojis
   }
 ]
