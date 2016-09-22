@@ -62,7 +62,7 @@ class Emoji extends Component {
     }
     const emojiStyles = [Styles.emoji, pressAnimStyle]
 
-    return <Animated.View style={emojiStyles} onStartShouldSetResponder={() => true} onResponderGrant={event => this.handleResponderGrant(event)} onResponderMove={event => this.handleResponderMove(event)} onResponderRelease={event => this.handleResponderRelease(event)}>
+    return <Animated.View style={emojiStyles} onStartShouldSetResponder={() => true} onResponderGrant={event => this.handleResponderGrant(event)} onResponderRelease={event => this.handleResponderRelease(event)}>
       <Image source={emoji.image} style={Styles.image} />
     </Animated.View> 
   }

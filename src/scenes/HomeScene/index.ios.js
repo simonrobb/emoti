@@ -87,7 +87,7 @@ class HomeScene extends Component {
   }
 
   handlePageChange(index) {
-    this.setState({ currentIndex: index })
+    this.setState({ currentPack: Packs[index] })
   }
 
   handlePrevPackPress() { 
@@ -114,20 +114,6 @@ class HomeScene extends Component {
 
   render() {
     const { width, height } = Dimensions.get('window')
-
-    // Play button animation styles
-    const playButtonPressAnimStyle = {
-      transform: [{scale: this.playButtonPressAnimValue.interpolate({
-          inputRange: [0, 0.5, 1],
-          outputRange: [1, 0.8, 4]
-        })
-      }],
-      opacity: this.playButtonPressAnimValue.interpolate({
-        inputRange: [0.5, 1],
-        outputRange: [1, 0]
-      })
-    }
-    const playButtonStyles = [playButtonPressAnimStyle]
 
     // Image animation styles
     const openAnimStyle = {
@@ -157,7 +143,25 @@ class HomeScene extends Component {
       })
     }
     const logoStyles = [styles.logo, logoAnimStyle, {
+      left: width / 2,
       tintColor: this.state.currentPack.logoColor
+    }]
+
+    // Play button animation styles
+    const playButtonPressAnimStyle = {
+      transform: [{scale: this.playButtonPressAnimValue.interpolate({
+          inputRange: [0, 0.5, 1],
+          outputRange: [1, 0.8, 4]
+        })
+      }],
+      opacity: this.playButtonPressAnimValue.interpolate({
+        inputRange: [0.5, 1],
+        outputRange: [1, 0]
+      })
+    }
+    const playButtonStyles = [playButtonPressAnimStyle, {
+      top: height / 2,
+      left: width / 2
     }]
 
     // Carousel bar animation styles
@@ -200,45 +204,33 @@ class HomeScene extends Component {
       </Carousel>
     </View>
 
-    // Overlay element
-    const overlayEl = <View style={styles.pack} key={this.state.currentPack.name}>
-      <StatusBar hidden={true} />
-      <View style={styles.wrapper}>
-        <View style={styles.content}>
-          <Animated.Image source={require('./assets/logo.png')} style={logoStyles}  />
-          <View style={styles.play}>
-            <Animated.Image source={require('./assets/play.png')} style={playButtonStyles} onStartShouldSetResponder={event => this.handleStartShouldSetResponder(event)} onResponderGrant={event => this.handleResponderGrant(event)} onResponderRelease={event => this.handleResponderRelease(event, this.state.currentPack)} />
-          </View>
-          <Animated.View style={carouselBarStyles}>
-            <View>
-              <TouchableWithoutFeedback onPress={() => this.handlePrevPackPress()}>
-                <Image source={require('./assets/arrow.png')} style={arrowLeftStyles} />
-              </TouchableWithoutFeedback>
-            </View>
-            <Text style={styles.packName}>{this.state.currentPack.name}</Text>
-            <View>
-              <TouchableWithoutFeedback onPress={() => this.handleNextPackPress()}>
-                <Image source={require('./assets/arrow.png')} style={arrowRightStyles} />
-              </TouchableWithoutFeedback>
-            </View>
-          </Animated.View>
-        </View>
-      </View>
-    </View>
-
     // Put it together
     return <View style={styles.container}>
+      <StatusBar hidden={true} />
       {carouselEl}
-      {overlayEl}
+      <Animated.Image source={require('./assets/logo.png')} style={logoStyles}  />
+      <View style={styles.play}>
+        <Animated.Image source={require('./assets/play.png')} style={playButtonStyles} onStartShouldSetResponder={event => this.handleStartShouldSetResponder(event)} onResponderGrant={event => this.handleResponderGrant(event)} onResponderRelease={event => this.handleResponderRelease(event, this.state.currentPack)} />
+      </View>
+      <Animated.View style={carouselBarStyles}>
+        <View>
+          <TouchableWithoutFeedback onPress={() => this.handlePrevPackPress()}>
+            <Image source={require('./assets/arrow.png')} style={arrowLeftStyles} />
+          </TouchableWithoutFeedback>
+        </View>
+        <Text style={styles.packName}>{this.state.currentPack.name}</Text>
+        <View>
+          <TouchableWithoutFeedback onPress={() => this.handleNextPackPress()}>
+            <Image source={require('./assets/arrow.png')} style={arrowRightStyles} />
+          </TouchableWithoutFeedback>
+        </View>
+      </Animated.View>
     </View>
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-  pack: {
     flex: 1
   },
   carousel: {
@@ -251,27 +243,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     resizeMode: Image.resizeMode.cover
   },
-  wrapper: {
-    flex: 1
-  },
-  content: {
-    flex: 1,
-    width: null,
-    height: null,
-    alignItems: 'center'
-  },
   logo: {
-    marginTop: 43
+    position: 'absolute',
+    top: 43,
+    marginLeft: -(157 / 2)
   },
   play: {
-    flex: 1,
-    justifyContent: 'center'
+    position: 'absolute',
+    marginLeft: -(53 / 2),
+    marginTop: -(63 / 2)
   },
   carouselBar: {
-    flexDirection: 'row',
-    width: null,
+    position: 'absolute',
+    left: 0,
+    bottom: 37,
+    width: 376,
     height: 44,
-    marginBottom: 37,
+    flexDirection: 'row',
     backgroundColor: 'rgba(0,0,0,0)'
   },
   packName: {
