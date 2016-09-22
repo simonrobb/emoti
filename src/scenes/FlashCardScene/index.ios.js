@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {
   AppRegistry,
-  StyleSheet,
   Text,
   View,
   Image,
@@ -12,6 +11,10 @@ import {
   StatusBar
 } from 'react-native';
 import Sound from 'react-native-sound'
+import Styles from './style'
+import Emoji from './components/Emoji'
+import Word from './components/Word'
+import BackButton from './components/BackButton'
 
 const SFX_TEXT_ENTER_PATH = 'ping.wav'
 const SFX_DISMISS_EMOJI_PATH = 'whoosh.wav'
@@ -66,29 +69,6 @@ class FlashCardScene extends Component {
     this.setState({ wordDisplayed: false })
   }
 
-  emojiPressAnimation() {
-    this.emojiPressAnimValue.setValue(0)
-    Animated.timing(
-      this.emojiPressAnimValue,
-      {
-        duration: 100,
-        easing: Easing.out(Easing.ease),
-        toValue: 0.5
-      }
-    ).start()
-  }
-
-  emojiReleaseAnimation() {
-    Animated.timing(
-      this.emojiPressAnimValue,
-      {
-        duration: 200,
-        easing: Easing.in(Easing.elastic(2)),
-        toValue: 1
-      }
-    ).start()
-  }
-
   nextEmoji() {
     this.setState({ emoji: this.getRandomEmoji() })
   }
@@ -106,30 +86,11 @@ class FlashCardScene extends Component {
     return emoji
   }
 
-  handleStartShouldSetResponder(event) {
-    return true
-  }
-
-  handleResponderGrant(event) {
-    if (this.state.wordDisplayed) {
-      
-    } else {
-      this.emojiPressAnimation()
-    }
-  }
-
-  handleResponderMove(event) {
-    if (this.state.wordDisplayed) {
-      
-    }
-  }
-
-  handleResponderRelease(event) {
+  handleEmojiPress(event) {
     if (this.state.wordDisplayed) {
       this.textExit()
       this.nextEmoji()
     } else {
-      this.emojiReleaseAnimation()
       this.textEnter()
     }
   }
@@ -138,86 +99,19 @@ class FlashCardScene extends Component {
     const { onBackPress } = this.props
     const { wordDisplayed, emoji } = this.state
 
-    const emojiPressAnimStyle = {
-      transform: [{scale: this.emojiPressAnimValue.interpolate({
-          inputRange: [0, 0.5, 1.2],
-          outputRange: [1, 0.9, 1.2]
-        })
-      }]
-    }
-    const emojiStyles = [styles.emoji, emojiPressAnimStyle]
-
-    const wordEnterStyle = {
-      opacity: this.emojiPressAnimValue.interpolate({
-        inputRange: [0.7, 1],
-        outputRange: [0, 1]
-      }),
-      transform: [{scale: this.emojiPressAnimValue.interpolate({
-          inputRange: [0.5, 1, 1.2],
-          outputRange: [0, 1, 1.1]
-        })
-      }]
-    }
-    const wordStyles = [styles.word]
-    if (this.state.wordDisplayed) {
-      wordStyles.push(wordEnterStyle)
-    }
-
     return (
-      <View style={styles.container}>
+      <View style={Styles.container}>
         <StatusBar hidden={true} />
-        <View style={styles.bar}>
-          <TouchableHighlight onPress={onBackPress}>
-            <Image source={require('./assets/arrow.png')} style={styles.back} />
-          </TouchableHighlight>
+        <View style={Styles.bar}>
+          <BackButton onPress={onBackPress} />
         </View>
-        <View style={styles.main}>
-          <Animated.View style={emojiStyles} onStartShouldSetResponder={event => this.handleStartShouldSetResponder(event)} onResponderGrant={event => this.handleResponderGrant(event)} onResponderMove={event => this.handleResponderMove(event)} onResponderRelease={event => this.handleResponderRelease(event)}>
-            <Image source={emoji.image} style={styles.image} />
-          </Animated.View>
-          <Animated.Text style={wordStyles}>
-            {emoji.word}
-          </Animated.Text>
+        <View style={Styles.main}>
+          <Emoji emoji={emoji} wordDisplayed={wordDisplayed} onPress={() => this.handleEmojiPress()} animationValue={this.emojiPressAnimValue} />
+          <Word word={emoji.word} wordDisplayed={wordDisplayed} animationValue={this.emojiPressAnimValue} />
         </View>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  bar: {
-    flex: 0,
-    flexDirection: 'row',
-    height: 70,
-    paddingLeft: 10,
-    paddingRight: 10,
-    alignItems: 'center',
-    justifyContent: 'flex-start'
-  },
-  back: {},
-  main: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emoji: {
-    paddingBottom: 10,
-    marginBottom: 5
-  },
-  image: {
-    width: 240,
-    height: 240
-  },
-  word: {
-    opacity: 0,
-    fontSize: 54,
-    fontFamily: 'American Typewriter',
-    color: '#475358',
-  }
-});
 
 export default FlashCardScene
