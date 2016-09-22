@@ -8,9 +8,9 @@ const styles = StyleSheet.create({
   bar: {
     flex: 0,
     flexDirection: 'row',
-    height: 70,
-    paddingLeft: 10,
-    paddingRight: 10,
+    height: 80,
+    paddingLeft: 15,
+    paddingRight: 15,
     alignItems: 'center',
     justifyContent: 'flex-start'
   },

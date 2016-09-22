@@ -9,25 +9,19 @@ import {
 const packs = [
   {
     name: 'Animals',
-    image: require('./assets/animals.jpg'),
+    image: require('./assets/animals.png'),
     logoColor: '#476079',
     emojis: AnimalsEmojis
   },
   {
-    name: 'The City',
-    image: require('./assets/animals.jpg'),
-    logoColor: '#476079',
-    emojis: CityEmojis
-  },
-  {
     name: 'Sports',
-    image: require('./assets/animals.jpg'),
+    image: require('./assets/sports.png'),
     logoColor: '#476079',
     emojis: SportsEmojis
   },
   {
     name: 'Food',
-    image: require('./assets/animals.jpg'),
+    image: require('./assets/food.png'),
     logoColor: '#476079',
     emojis: FoodEmojis
   },
