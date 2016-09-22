@@ -8,7 +8,8 @@ import {
   TouchableWithoutFeedback,
   Animated,
   Easing,
-  Dimensions
+  Dimensions,
+  StatusBar
 } from 'react-native'
 import Carousel from 'react-native-carousel-control'
 import Packs from '../../components/Packs'
@@ -201,11 +202,12 @@ class HomeScene extends Component {
 
     // Overlay element
     const overlayEl = <View style={styles.pack} key={this.state.currentPack.name}>
+      <StatusBar hidden={true} />
       <View style={styles.wrapper}>
         <View style={styles.content}>
           <Animated.Image source={require('./assets/logo.png')} style={logoStyles}  />
           <View style={styles.play}>
-            <Animated.Image source={require('./assets/play.png')} style={playButtonStyles} onStartShouldSetResponder={event => this.handleStartShouldSetResponder(event)} onResponderGrant={event => this.handleResponderGrant(event)} onResponderMove={event => this.handleResponderMove(event)} onResponderRelease={event => this.handleResponderRelease(event, this.state.currentPack)} />
+            <Animated.Image source={require('./assets/play.png')} style={playButtonStyles} onStartShouldSetResponder={event => this.handleStartShouldSetResponder(event)} onResponderGrant={event => this.handleResponderGrant(event)} onResponderRelease={event => this.handleResponderRelease(event, this.state.currentPack)} />
           </View>
           <Animated.View style={carouselBarStyles}>
             <View>
@@ -259,7 +261,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   logo: {
-    marginTop: 53
+    marginTop: 43
   },
   play: {
     flex: 1,

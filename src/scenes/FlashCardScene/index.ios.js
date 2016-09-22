@@ -8,7 +8,8 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
   Animated,
-  Easing
+  Easing,
+  StatusBar
 } from 'react-native';
 import Sound from 'react-native-sound'
 
@@ -119,7 +120,7 @@ class FlashCardScene extends Component {
 
   handleResponderMove(event) {
     if (this.state.wordDisplayed) {
-      console.log(event)
+      
     }
   }
 
@@ -164,6 +165,7 @@ class FlashCardScene extends Component {
 
     return (
       <View style={styles.container}>
+        <StatusBar hidden={true} />
         <View style={styles.bar}>
           <TouchableHighlight onPress={onBackPress}>
             <Image source={require('./assets/arrow.png')} style={styles.back} />
@@ -191,7 +193,6 @@ const styles = StyleSheet.create({
     flex: 0,
     flexDirection: 'row',
     height: 70,
-    marginTop: 20,
     paddingLeft: 10,
     paddingRight: 10,
     alignItems: 'center',
