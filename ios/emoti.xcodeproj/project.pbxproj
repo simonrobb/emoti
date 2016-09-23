@@ -30,6 +30,7 @@
 		F4FF8B591D948211000D7F8B /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4FF8B581D948211000D7F8B /* click.wav */; };
 		F4FF8B5B1D9483AA000D7F8B /* open.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4FF8B5A1D9483AA000D7F8B /* open.wav */; };
 		F4FF8B5D1D949A2C000D7F8B /* exit.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4FF8B5C1D949A2C000D7F8B /* exit.wav */; };
+		F4FF8B601D94B1CB000D7F8B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4FF8B5F1D94B1CB000D7F8B /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +148,7 @@
 		F4FF8B581D948211000D7F8B /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = click.wav; path = ../src/scenes/HomeScene/assets/click.wav; sourceTree = "<group>"; };
 		F4FF8B5A1D9483AA000D7F8B /* open.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = open.wav; path = ../src/scenes/HomeScene/assets/open.wav; sourceTree = "<group>"; };
 		F4FF8B5C1D949A2C000D7F8B /* exit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = exit.wav; path = ../src/scenes/FlashCardScene/assets/exit.wav; sourceTree = "<group>"; };
+		F4FF8B5F1D94B1CB000D7F8B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +167,7 @@
 				F403ACC51D920A18007DF6C2 /* libRNSound.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
+				F4FF8B601D94B1CB000D7F8B /* StoreKit.framework in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
@@ -316,6 +319,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* emotiTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				F4FF8B5E1D94B1CB000D7F8B /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -348,6 +352,14 @@
 				F403ACC61D920B1D007DF6C2 /* ping.wav */,
 			);
 			name = Sounds;
+			sourceTree = "<group>";
+		};
+		F4FF8B5E1D94B1CB000D7F8B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F4FF8B5F1D94B1CB000D7F8B /* StoreKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -405,6 +417,11 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = JK3C2H9N8B;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};

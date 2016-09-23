@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     fontSize: 54,
     fontFamily: 'American Typewriter',
     color: '#475358',
+    textAlign: 'center'
   }
 })
 

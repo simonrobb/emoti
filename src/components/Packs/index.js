@@ -22,14 +22,8 @@ const packs = [
   {
     name: 'Food',
     image: require('./assets/food.png'),
-    logoColor: '#476079',
+    logoColor: '#896428',
     emojis: FoodEmojis
-  },
-  {
-    name: 'Faces',
-    image: require('./assets/travel.jpg'),
-    logoColor: '#FFFFFF',
-    emojis: FacesEmojis
   }
 ]
 

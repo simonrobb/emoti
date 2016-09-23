@@ -46,11 +46,11 @@ class FlashCardScene extends Component {
       }
       this.sfx.dismissEmoji.setVolume(0.1)
     })
-    this.sfx.dismissEmoji = new Sound(SFX_BACK_PRESS_PATH, Sound.MAIN_BUNDLE, error => { 
+    this.sfx.backPress = new Sound(SFX_BACK_PRESS_PATH, Sound.MAIN_BUNDLE, error => { 
       if (error) {
         console.error(`Failed to load sound ${SFX_BACK_PRESS_PATH}`, error)
       }
-      this.sfx.dismissEmoji.setVolume(0.1)
+      this.sfx.backPress.setVolume(0.2)
     })
   }
 
@@ -105,7 +105,7 @@ class FlashCardScene extends Component {
 
   handleBackPress() {
     // Play SFX
-    this.sfx.dismissEmoji.play()
+    this.sfx.backPress.play()
 
     // Navigate
     const { onBackPress } = this.props
